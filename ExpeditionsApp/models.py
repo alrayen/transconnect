@@ -1,7 +1,7 @@
 from django.db import models
 
 from EntreprisesApp.models import Entreprise
-
+from django.core.exceptions import ValidationError
 # Create your models here.
 class Expedition(models.Model):
     reference = models.CharField(max_length=20, unique=True)
@@ -14,3 +14,8 @@ class Expedition(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     entreprise = models.ForeignKey(Entreprise, on_delete=models.CASCADE, related_name='expeditions')
+    def clean(self):
+        super().clean()
+        if self.entreprise_id and self.entreprise.type_entreprise != 'char':
+            raise ValidationError({"entreprise": "L'entreprise associée doit être de type 'chargeur' pour créer une expédition."})
+            
