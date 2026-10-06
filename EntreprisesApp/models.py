@@ -1,3 +1,5 @@
+from time import timezone
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxLengthValidator, MinLengthValidator
@@ -22,6 +24,21 @@ class Utilisateur(AbstractUser):
     telephone=models.CharField(max_length=15, null=True, blank=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
+    @classmethod
+    def _generate_user_id(cls):
+        annee = timezone.now().strftime('%y')
+        prefix=f"{annee}user"
+        dernier = cls.objects.filter(user_id__startswith=prefix).order_by('-user_id').first()
+        compteur= int (dernier.user_id[-2:]) + 1 if dernier else 0
+        if compteur > 99:
+            raise ValidationError("Le compteur a dépassé la limite maximale de 99.")
+        return f"{prefix}{compteur:02d}"
+    def save(self, *args, **kwargs):
+        if not self.user_id:
+            self.user_id = self._generate_user_id()
+        self.full_clean()
+        super().save(*args, **kwargs)
+    
 
 class Entreprise(models.Model):
     raison_sociale = models.CharField(max_length=200 , null=False, blank=False)

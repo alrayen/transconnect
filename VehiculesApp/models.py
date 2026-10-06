@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from EntreprisesApp.models import Entreprise
@@ -11,3 +12,7 @@ class Vehicule(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     proprietaire = models.ForeignKey(Entreprise, on_delete=models.CASCADE, related_name='vehicules')
+    def clean(self):
+        super().clean()
+        if self.proprietaire_id and self.proprietaire.type_entreprise != 'trans':
+             raise ValidationError({"proprietaire": "L'entreprise associée doit être de type 'transporteur' pour créer un véhicule."})

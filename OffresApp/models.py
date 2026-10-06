@@ -4,10 +4,11 @@ from EntreprisesApp.models import Entreprise
 from ExpeditionsApp.models import Expedition
 from VehiculesApp.models import Vehicule
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 # Create your models here.
 class Offre(models.Model):
-    prix = models.DecimalField(max_digits=10, decimal_places=2)
-    delai_jours = models.IntegerField()
+    prix = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.01, "Le prix doit être supérieur à zéro")])
+    delai_jours = models.IntegerField(validators=[MinValueValidator(1, "Le délai doit être d'au moins 1 jour")])
     status = models.CharField(max_length=20, choices=[('en_attente','En attente'),('acceptee','Acceptée'),('refusee','Refusée')], default='en_attente')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -21,4 +22,11 @@ class Offre(models.Model):
             raise ValidationError({"entreprise": "L'entreprise associée doit être de type 'transporteur' pour créer une offre."})
         if self.vehicule_id and self.vehicule.proprietaire_id != self.entreprise_id:
             raise ValidationError({"vehicule": "Le véhicule proposé doit appartenir à l'entreprise associée à l'offre."})
+        if self.expedition_id and self.expedition.statut != 'publiee':
+            raise ValidationError({"expedition": "L'expédition associée doit être de statut 'publiee' pour créer une offre."})
+        if self.vehicule_id and not self.vehicule.disponible:
+            raise ValidationError({"vehicule": "Le véhicule proposé n'est pas disponible pour créer une offre."})
+        if self.vehicule_id and not self.vehicule.disponible:
+            raise ValidationError({"vehicule": "Le véhicule proposé n'est pas disponible pour créer une offre."})
+
         
