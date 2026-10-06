@@ -4,7 +4,7 @@ from django.core.validators import MaxLengthValidator, MinLengthValidator
 # Create your models here.
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
-matricule_fiscal_validator=RegexValidator(Regex=r'^\d{7}[/ -]?[A-Za-z][/ -]?[ABDNPEabdnpe][/ -]?[MPCNEmpcne][/ -]?\d{3}$',message="format incorrect -ex(1234567AAM000 ou 1234567-A-A-M-000).")
+matricule_fiscal_validator=RegexValidator(regex=r'^\d{7}[/ -]?[A-Za-z][/ -]?[ABDNPEabdnpe][/ -]?[MPCNEmpcne][/ -]?\d{3}$',message="format incorrect -ex(1234567AAM000 ou 1234567-A-A-M-000).")
 def validate_email(value):
     if not value:
         raise ValidationError("L'adresse e-mail ne peut pas être vide.")

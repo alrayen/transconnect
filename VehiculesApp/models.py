@@ -1,7 +1,6 @@
 from django.db import models
 
 from EntreprisesApp.models import Entreprise
-from OffresApp.models import Offre
 from django.core.validators import MinValueValidator
 # Create your models here.
 class Vehicule(models.Model):
@@ -12,4 +11,3 @@ class Vehicule(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     proprietaire = models.ForeignKey(Entreprise, on_delete=models.CASCADE, related_name='vehicules')
-    offre = models.ForeignKey(Offre, on_delete=models.SET_NULL, null=True, blank=True, related_name='vehicules')
