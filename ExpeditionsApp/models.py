@@ -4,7 +4,6 @@ from EntreprisesApp.models import Entreprise
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.core.validators import MinValueValidator
-# Create your models here.
 class Expedition(models.Model):
     reference = models.CharField(max_length=20, unique=True)
     ville_depart = models.CharField(max_length=100)
@@ -24,7 +23,7 @@ class Expedition(models.Model):
     @classmethod
     def _generate_ref(cls):
         annee = timezone.now().strftime('%y')
-        prefix=f"EXP_{annee}_"
+        prefix=f"EXP-{annee}-"
         dernier = cls.objects.filter(reference__startswith=prefix).order_by('-reference').first()
 
         compteur= int (dernier.reference[-5:]) + 1 if dernier else 1

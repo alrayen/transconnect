@@ -1,9 +1,8 @@
-from time import timezone
+from django.utils import timezone
 
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxLengthValidator, MinLengthValidator
-# Create your models here.
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 matricule_fiscal_validator=RegexValidator(regex=r'^\d{7}[/ -]?[A-Za-z][/ -]?[ABDNPEabdnpe][/ -]?[MPCNEmpcne][/ -]?\d{3}$',message="format incorrect -ex(1234567AAM000 ou 1234567-A-A-M-000).")
