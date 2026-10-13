@@ -11,6 +11,8 @@ class Vehicule(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     proprietaire = models.ForeignKey(Entreprise, on_delete=models.CASCADE, related_name='vehicules')
+    def __str__(self):
+        return f"{self.immatriculation} - {self.type_vehicule} - {self.proprietaire.raison_sociale}"
     def clean(self):
         super().clean()
         if self.proprietaire_id and self.proprietaire.type_entreprise != 'trans':

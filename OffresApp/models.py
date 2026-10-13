@@ -15,6 +15,8 @@ class Offre(models.Model):
     expedition = models.ForeignKey(Expedition, on_delete=models.CASCADE, related_name='offres')
     entreprise =models.ForeignKey(Entreprise, on_delete=models.CASCADE, related_name='offres')
     vehicule = models.ForeignKey(Vehicule, on_delete=models.CASCADE, related_name='offres')
+    def __str__(self):
+        return f"Offre {self.id} - {self.expedition.reference} - {self.entreprise.raison_sociale}"
     def clean(self):
         super().clean()
         if self.entreprise_id and self.entreprise.type_entreprise != 'trans':
