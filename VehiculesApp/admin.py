@@ -8,6 +8,7 @@ class VehiculeAdmin(admin.ModelAdmin):
     list_editable = ('disponible',)
     ordering = ('-created_at',)
     list_per_page = 5
+    date_hierarchy = 'created_at'
     readonly_fields = ('created_at', 'updated_at')
     fieldsets = (
         ('Informations générales', {

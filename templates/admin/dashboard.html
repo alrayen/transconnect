@@ -1,0 +1,103 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}Tableau de bord | TransConnect{% endblock %}
+
+{% block content %}
+<style>
+  .banniere {
+    background: linear-gradient(135deg, #0f4c5c, #e36414);
+    color: white; padding: 30px; border-radius: 14px; margin-bottom: 25px;
+  }
+  .banniere h1 { color: white; margin: 0 0 5px 0; font-size: 28px; }
+  .banniere p { margin: 0; opacity: 0.9; }
+
+  .cartes { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 30px; }
+  .carte {
+    flex: 1; min-width: 200px; padding: 20px; border-radius: 12px;
+    background: var(--darkened-bg); border-left: 6px solid;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .carte .nombre { font-size: 38px; font-weight: bold; margin: 5px 0; }
+  .carte .titre { font-size: 15px; font-weight: bold; }
+  .carte .detail { font-size: 13px; color: var(--body-quiet-color); margin-top: 4px; }
+  .bleu   { border-color: #1b6f80; } .bleu .nombre   { color: #1b6f80; }
+  .orange { border-color: #e36414; } .orange .nombre { color: #e36414; }
+  .vert   { border-color: #2a9d8f; } .vert .nombre   { color: #2a9d8f; }
+  .jaune  { border-color: #ff9f1c; } .jaune .nombre  { color: #ff9f1c; }
+
+  .bloc {
+    background: var(--darkened-bg); padding: 20px; border-radius: 12px;
+    margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .bloc h2 { margin-top: 0; }
+  .ligne { margin-bottom: 12px; }
+  .ligne span { display: inline-block; width: 110px; }
+  .barre { background: var(--hairline-color); border-radius: 6px; height: 14px; }
+  .remplissage { height: 14px; border-radius: 6px; }
+
+  .tableau { width: 100%; }
+  .badge { color: white; padding: 3px 10px; border-radius: 12px; font-size: 12px; }
+</style>
+
+<div class="banniere">
+  <h1>Tableau de bord TransConnect</h1>
+  <p>Vue d'ensemble des expéditions, offres et véhicules de la plateforme</p>
+</div>
+
+<div class="cartes">
+  <div class="carte bleu">
+    <div class="nombre">{{ nb_expeditions }}</div>
+    <div class="titre">Expéditions</div>
+    <div class="detail">{{ nb_publiees }} publiées · {{ nb_en_cours }} en cours</div>
+  </div>
+  <div class="carte orange">
+    <div class="nombre">{{ nb_offres }}</div>
+    <div class="titre">Offres</div>
+    <div class="detail">{{ nb_proposees }} en attente de réponse</div>
+  </div>
+  <div class="carte vert">
+    <div class="nombre">{{ nb_vehicules }}</div>
+    <div class="titre">Véhicules</div>
+    <div class="detail">{{ nb_vehicules_dispo }} disponibles</div>
+  </div>
+  <div class="carte jaune">
+    <div class="nombre">{{ nb_entreprises }}</div>
+    <div class="titre">Entreprises</div>
+    <div class="detail">chargeurs et transporteurs</div>
+  </div>
+</div>
+
+<div class="bloc">
+  <h2>Répartition des expéditions par statut</h2>
+  <div class="ligne"><span>Publiées ({{ nb_publiees }})</span>
+    <div class="barre"><div class="remplissage" style="background:#1b6f80; width:{% widthratio nb_publiees nb_expeditions 100 %}%"></div></div></div>
+  <div class="ligne"><span>Attribuées ({{ nb_attribuees }})</span>
+    <div class="barre"><div class="remplissage" style="background:#ff9f1c; width:{% widthratio nb_attribuees nb_expeditions 100 %}%"></div></div></div>
+  <div class="ligne"><span>En cours ({{ nb_en_cours }})</span>
+    <div class="barre"><div class="remplissage" style="background:#e36414; width:{% widthratio nb_en_cours nb_expeditions 100 %}%"></div></div></div>
+  <div class="ligne"><span>Terminées ({{ nb_terminees }})</span>
+    <div class="barre"><div class="remplissage" style="background:#2a9d8f; width:{% widthratio nb_terminees nb_expeditions 100 %}%"></div></div></div>
+</div>
+
+<div class="bloc">
+  <h2>Dernières expéditions</h2>
+  <table class="tableau">
+    <thead>
+      <tr><th>Référence</th><th>Trajet</th><th>Poids (kg)</th><th>Statut</th><th>Entreprise</th></tr>
+    </thead>
+    <tbody>
+      {% for e in dernieres_expeditions %}
+      <tr>
+        <td><a href="{% url 'admin:ExpeditionsApp_expedition_change' e.pk %}">{{ e.reference }}</a></td>
+        <td>{{ e.ville_depart }} → {{ e.ville_arrivee }}</td>
+        <td>{{ e.poids_kg }}</td>
+        <td><span class="badge" style="background:#1b6f80">{{ e.get_statut_display }}</span></td>
+        <td>{{ e.entreprise }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5">Aucune expédition.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

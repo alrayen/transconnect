@@ -1,0 +1,36 @@
+{% extends "admin/base_site.html" %}
+
+{% block extrastyle %}
+<style>
+  :root, html[data-theme="light"], html[data-theme="dark"] {
+    --primary: #0f4c5c;
+    --secondary: #1b6f80;
+    --accent: #ff9f1c;
+    --primary-fg: #ffffff;
+    --header-bg: #0f4c5c;
+    --header-color: #ffd29a;
+    --header-branding-color: #ff9f1c;
+    --header-link-color: #ffffff;
+    --breadcrumbs-bg: #1b6f80;
+    --breadcrumbs-link-fg: #ffffff;
+    --link-fg: #e36414;
+    --link-hover-color: #ff9f1c;
+    --link-selected-fg: #ff9f1c;
+    --button-bg: #e36414;
+    --button-hover-bg: #c4520b;
+    --default-button-bg: #0f4c5c;
+    --default-button-hover-bg: #0a3540;
+  }
+  #header { border-bottom: 4px solid #ff9f1c; }
+  #branding h1 { font-weight: bold; letter-spacing: 1px; }
+</style>
+{% endblock %}
+
+{% block branding %}
+  <h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header }}</a></h1>
+{% endblock %}
+
+{% block userlinks %}
+  <a href="{% url 'dashboard' %}">Tableau de bord</a> /
+  {{ block.super }}
+{% endblock %}
