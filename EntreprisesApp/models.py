@@ -45,6 +45,7 @@ class Entreprise(models.Model):
     type_entreprise = models.CharField(max_length=100, choices= [
         ('char','chargeur'),
         ('trans','transporteur'),
+        ('admin','admin')
     ] , default='char')
     adresse =models.TextField(validators=[MinLengthValidator(20, "Adresse doit contenir au moins 10 caractères"), MaxLengthValidator(200, "Adresse ne doit pas dépasser 200 caractères")])
     created_at = models.DateTimeField(auto_now_add=True)
