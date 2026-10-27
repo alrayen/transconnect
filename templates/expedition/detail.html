@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Détails de l'expédition</h1>
+    <p>Référence: {{ exp.reference }}</p>
+    <p>Ville de départ: {{ exp.ville_depart }}</p>
+    <p>Ville d'arrivée: {{ exp.ville_arrivee }}</p>
+    <p>Date souhaitée: {{ exp.date_souhaitee }}</p>
+    <p>Poids: {{ exp.poids_kg }}</p>
+    <p>Description: {{ exp.description }}</p>
+    <p>Status: {{ exp.statut }}</p>
+    <a href="{% url 'list' %}">Retour à la liste des expéditions</a>
+</body>
+</html>
