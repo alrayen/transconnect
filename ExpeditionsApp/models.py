@@ -14,7 +14,7 @@ class Expedition(models.Model):
     statut=models.CharField(max_length=20,choices=[ ('publiee','Publiee'), ('attribuee','Attribuee'), ('en cours','En Cours'), ('terminee','Terminee') ],default='publiee')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    entreprise = models.ForeignKey(Entreprise, on_delete=models.CASCADE, related_name='expeditions')
+    entreprise = models.ForeignKey(Entreprise, on_delete=models.CASCADE, related_name='expeditions',limit_choices_to={'type_entreprise': 'char'})
     def __str__(self):
         return self.reference
     def clean(self):
