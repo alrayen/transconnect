@@ -6,11 +6,15 @@
         <title>Expedition Form</title>
     </head>
     <body>
-        <h1>Créer une nouvelle expédition</h1>
+        <h1>
+            {% if form.instance.pk %}Modifier l'expédition{% else %}Créer une nouvelle expédition{% endif %}
+            <!-- {% if object %}Modifier l'expédition{% else %}Créer une nouvelle expédition{% endif %} -->
+
+        </h1>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Créer</button>
+            <button type="submit">{% if form.instance.pk %}Modifier{% else %}Créer{% endif %}</button>
             <a href="{% url 'expedition_list' %}">Annuler</a>
         </form>
     </body>
