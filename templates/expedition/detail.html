@@ -1,19 +1,31 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Détails de l'expédition</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h1>Détails de l'expédition</h1>
-    <p>Référence: {{ exp.reference }}</p>
-    <p>Ville de départ: {{ exp.ville_depart }}</p>
-    <p>Ville d'arrivée: {{ exp.ville_arrivee }}</p>
-    <p>Date souhaitée: {{ exp.date_souhaitee }}</p>
-    <p>Poids: {{ exp.poids_kg }}</p>
-    <p>Description: {{ exp.description }}</p>
-    <p>Status: {{ exp.statut }}</p>
-    <a href="{% url 'list' %}">Retour à la liste des expéditions</a>
+    <div class="topbar">Trans<span>Connect</span></div>
+    <div class="container">
+        <div class="card narrow">
+            <h1>Détails de l'expédition</h1>
+            <dl class="details">
+                <dt>Référence</dt>       <dd>{{ exp.reference }}</dd>
+                <dt>Ville de départ</dt> <dd>{{ exp.ville_depart }}</dd>
+                <dt>Ville d'arrivée</dt> <dd>{{ exp.ville_arrivee }}</dd>
+                <dt>Date souhaitée</dt>  <dd>{{ exp.date_souhaitee }}</dd>
+                <dt>Poids</dt>           <dd>{{ exp.poids_kg }} kg</dd>
+                <dt>Description</dt>     <dd>{{ exp.description|default:"—" }}</dd>
+                <dt>Statut</dt>          <dd><span class="badge badge-{{ exp.statut|slugify }}">{{ exp.get_statut_display }}</span></dd>
+            </dl>
+            <div class="actions">
+                <a class="btn btn-light" href="{% url 'list' %}">← Retour à la liste</a>
+                <a class="btn" href="{% url 'expedition_update' exp.pk %}">Modifier</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

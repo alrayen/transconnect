@@ -1,21 +1,26 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Expedition Form</title>
-    </head>
-    <body>
-        <h1>
-            {% if form.instance.pk %}Modifier l'expédition{% else %}Créer une nouvelle expédition{% endif %}
-            <!-- {% if object %}Modifier l'expédition{% else %}Créer une nouvelle expédition{% endif %} -->
-
-        </h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">{% if form.instance.pk %}Modifier{% else %}Créer{% endif %}</button>
-            <a href="{% url 'expedition_list' %}">Annuler</a>
-        </form>
-    </body>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if form.instance.pk %}Modifier{% else %}Créer{% endif %} une expédition</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="topbar">Trans<span>Connect</span></div>
+    <div class="container">
+        <div class="card narrow">
+            <h1>{% if form.instance.pk %}Modifier l'expédition{% else %}Créer une nouvelle expédition{% endif %}</h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="actions">
+                    <button type="submit">{% if form.instance.pk %}Modifier{% else %}Créer{% endif %}</button>
+                    <a class="btn btn-light" href="{% url 'expedition_list' %}">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
 </html>

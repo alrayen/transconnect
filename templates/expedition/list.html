@@ -1,44 +1,58 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Liste des expéditions</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h1>Liste des expéditions</h1>
-    <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%;" style=" color: #fc0000; font-family: Arial, sans-serif; font-size: 14px;">
-        <thead style="background-color: #2600ff; color: #eeebf4; font-weight: bold;">
-            <tr>
-                <th>Référence</th>
-                <th>Ville de départ</th>
-                <th>Ville d'arrivée</th>
-                <th>Date souhaitée</th>
-                <th>poids</th>
-                <th>description</th>
-                <th>status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for expedition in liste %}
-                <tr>
-                    <td><a href="{% url 'detail' expedition.pk %}">{{ expedition.reference }}</a></td>
-                    <td>{{ expedition.ville_depart }}</td>
-                    <td>{{ expedition.ville_arrivee }}</td>
-                    <td>{{ expedition.date_souhaitee }}</td>
-                    <td>{{ expedition.poids_kg }}</td>
-                    <td>{{ expedition.description }}</td>
-                    <td>{{ expedition.statut }}</td>
-                    <td><a href="{% url 'delete' expedition.pk %}">Supprimer</a> </td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="4">No expeditions available.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
+    <div class="topbar">Trans<span>Connect</span></div>
+    <div class="container">
+        <div class="card">
+            <div class="page-header">
+                <h1>Liste des expéditions</h1>
+                <a class="btn" href="{% url 'expedition_create' %}">+ Nouvelle expédition</a>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Référence</th>
+                            <th>Ville de départ</th>
+                            <th>Ville d'arrivée</th>
+                            <th>Date souhaitée</th>
+                            <th>Poids (kg)</th>
+                            <th>Description</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for expedition in liste %}
+                            <tr>
+                                <td><a href="{% url 'detail' expedition.pk %}">{{ expedition.reference }}</a></td>
+                                <td>{{ expedition.ville_depart }}</td>
+                                <td>{{ expedition.ville_arrivee }}</td>
+                                <td>{{ expedition.date_souhaitee }}</td>
+                                <td>{{ expedition.poids_kg }}</td>
+                                <td>{{ expedition.description }}</td>
+                                <td><span class="badge badge-{{ expedition.statut|slugify }}">{{ expedition.get_statut_display }}</span></td>
+                                <td>
+                                    <a href="{% url 'expedition_update' expedition.pk %}">Modifier</a> ·
+                                    <a class="link-danger" href="{% url 'delete' expedition.pk %}">Supprimer</a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="8" class="empty">Aucune expédition disponible.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
