@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if form.instance.pk %}Modifier{% else %}Créer{% endif %} un véhicule</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="topbar">Trans<span>Connect</span></div>
+    <div class="container">
+        <div class="card narrow">
+            <h1>{% if form.instance.pk %}Modifier le véhicule{% else %}Créer un nouveau véhicule{% endif %}</h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="actions">
+                    <button type="submit">{% if form.instance.pk %}Modifier{% else %}Créer{% endif %}</button>
+                    <a class="btn btn-light" href="{% url 'vehicule_list' %}">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

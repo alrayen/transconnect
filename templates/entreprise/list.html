@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des entreprises</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="topbar">Trans<span>Connect</span></div>
+    <div class="container">
+        <div class="card">
+            <div class="page-header">
+                <h1>Liste des entreprises</h1>
+                <a class="btn" href="{% url 'entreprise_create' %}">+ Nouvelle entreprise</a>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Raison sociale</th>
+                            <th>Matricule fiscale</th>
+                            <th>Type</th>
+                            <th>Adresse</th>
+                            <th>Gérant</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entreprise in liste %}
+                            <tr>
+                                <td><a href="{% url 'entreprise_detail' entreprise.pk %}">{{ entreprise.raison_sociale }}</a></td>
+                                <td>{{ entreprise.matricule_fiscale }}</td>
+                                <td><span class="badge badge-{{ entreprise.type_entreprise }}">{{ entreprise.get_type_entreprise_display }}</span></td>
+                                <td>{{ entreprise.adresse }}</td>
+                                <td>{{ entreprise.gerant }}</td>
+                                <td>
+                                    <a href="{% url 'entreprise_update' entreprise.pk %}">Modifier</a> |
+                                    <a class="link-danger" href="{% url 'entreprise_delete' entreprise.pk %}">Supprimer</a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="6" class="empty">Aucune entreprise disponible.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -13,7 +13,7 @@ class Offre(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     date_proposition = models.DateField()
     expedition = models.ForeignKey(Expedition, on_delete=models.CASCADE, related_name='offres')
-    entreprise =models.ForeignKey(Entreprise, on_delete=models.CASCADE, related_name='offres')
+    entreprise =models.ForeignKey(Entreprise, on_delete=models.CASCADE, related_name='offres',limit_choices_to={'type_entreprise': 'trans'})
     vehicule = models.ForeignKey(Vehicule, on_delete=models.CASCADE, related_name='offres')
     def __str__(self):
         return f"Offre {self.id} - {self.expedition.reference} - {self.entreprise.raison_sociale}"

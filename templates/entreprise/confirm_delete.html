@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmer la suppression</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="topbar">Trans<span>Connect</span></div>
+    <div class="container">
+        <div class="card narrow">
+            <h1>Confirmer la suppression</h1>
+            <p>Voulez-vous vraiment supprimer l'entreprise <strong>{{ ent.raison_sociale }}</strong> ?</p>
+            {% with nb_veh=ent.vehicules.count nb_exp=ent.expeditions.count nb_off=ent.offres.count %}
+                {% if nb_veh or nb_exp or nb_off %}
+                    <p class="warning">Attention : seront aussi supprimés
+                        {{ nb_veh }} véhicule(s), {{ nb_exp }} expédition(s) et {{ nb_off }} offre(s) liés à cette entreprise.</p>
+                {% endif %}
+            {% endwith %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="actions">
+                    <button type="submit" class="btn-danger">Oui, supprimer</button>
+                    <a class="btn btn-light" href="{% url 'entreprise_detail' ent.pk %}">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

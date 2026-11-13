@@ -40,8 +40,8 @@
                                 <td>{{ expedition.description }}</td>
                                 <td><span class="badge badge-{{ expedition.statut|slugify }}">{{ expedition.get_statut_display }}</span></td>
                                 <td>
-                                    <a href="{% url 'expedition_update' expedition.pk %}">Modifier</a> ·
-                                    <a class="link-danger" href="{% url 'delete' expedition.pk %}">Supprimer</a>
+                                    <a href="{% url 'expedition_update' expedition.pk %}">Modifier</a> |
+                                    <a class="link-danger" href="{% url 'expedition_delete' expedition.pk %}">Supprimer</a>
                                 </td>
                             </tr>
                         {% empty %}

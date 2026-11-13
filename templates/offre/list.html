@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des offres</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="topbar">Trans<span>Connect</span></div>
+    <div class="container">
+        <div class="card">
+            <div class="page-header">
+                <h1>Liste des offres</h1>
+                <a class="btn" href="{% url 'offre_create' %}">+ Nouvelle offre</a>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Expédition</th>
+                            <th>Transporteur</th>
+                            <th>Véhicule</th>
+                            <th>Prix</th>
+                            <th>Délai (jours)</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for offre in liste %}
+                            <tr>
+                                <td><a href="{% url 'offre_detail' offre.pk %}">Offre {{ offre.pk }}</a></td>
+                                <td>{{ offre.expedition.reference }}</td>
+                                <td>{{ offre.entreprise.raison_sociale }}</td>
+                                <td>{{ offre.vehicule.immatriculation }}</td>
+                                <td>{{ offre.prix }}</td>
+                                <td>{{ offre.delai_jours }}</td>
+                                <td><span class="badge badge-{{ offre.statut }}">{{ offre.get_statut_display }}</span></td>
+                                <td>
+                                    <a href="{% url 'offre_update' offre.pk %}">Modifier</a> |
+                                    <a class="link-danger" href="{% url 'offre_delete' offre.pk %}">Supprimer</a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="8" class="empty">Aucune offre disponible.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

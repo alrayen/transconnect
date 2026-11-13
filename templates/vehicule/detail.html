@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails du véhicule</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="topbar">Trans<span>Connect</span></div>
+    <div class="container">
+        <div class="card narrow">
+            <h1>Détails du véhicule</h1>
+            <dl class="details">
+                <dt>Immatriculation</dt> <dd>{{ veh.immatriculation }}</dd>
+                <dt>Type</dt>            <dd>{{ veh.get_type_vehicule_display }}</dd>
+                <dt>Capacité</dt>        <dd>{{ veh.capacite_kg }} kg</dd>
+                <dt>Disponibilité</dt>   <dd>
+                    {% if veh.disponible %}
+                        <span class="badge badge-disponible">Disponible</span>
+                    {% else %}
+                        <span class="badge badge-indisponible">Indisponible</span>
+                    {% endif %}
+                </dd>
+                <dt>Propriétaire</dt>    <dd>{{ veh.proprietaire }}</dd>
+                <dt>Créé le</dt>         <dd>{{ veh.created_at|date:"d/m/Y" }}</dd>
+            </dl>
+            <div class="actions">
+                <a class="btn btn-light" href="{% url 'vehicule_list' %}">Retour à la liste</a>
+                <a class="btn" href="{% url 'vehicule_update' veh.pk %}">Modifier</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

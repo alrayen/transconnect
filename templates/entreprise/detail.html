@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de l'entreprise</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="topbar">Trans<span>Connect</span></div>
+    <div class="container">
+        <div class="card narrow">
+            <h1>Détails de l'entreprise</h1>
+            <dl class="details">
+                <dt>Raison sociale</dt>    <dd>{{ ent.raison_sociale }}</dd>
+                <dt>Matricule fiscale</dt> <dd>{{ ent.matricule_fiscale }}</dd>
+                <dt>Type</dt>              <dd><span class="badge badge-{{ ent.type_entreprise }}">{{ ent.get_type_entreprise_display }}</span></dd>
+                <dt>Adresse</dt>           <dd>{{ ent.adresse|linebreaksbr }}</dd>
+                <dt>Gérant</dt>            <dd>{{ ent.gerant }}{% if ent.gerant.email %} ({{ ent.gerant.email }}){% endif %}</dd>
+                <dt>Créée le</dt>          <dd>{{ ent.created_at|date:"d/m/Y" }}</dd>
+            </dl>
+            <div class="actions">
+                <a class="btn btn-light" href="{% url 'entreprise_list' %}">Retour à la liste</a>
+                <a class="btn" href="{% url 'entreprise_update' ent.pk %}">Modifier</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

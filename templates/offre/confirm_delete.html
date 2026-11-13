@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmer la suppression</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="topbar">Trans<span>Connect</span></div>
+    <div class="container">
+        <div class="card narrow">
+            <h1>Confirmer la suppression</h1>
+            <p>Voulez-vous vraiment supprimer l'offre <strong>{{ off.pk }}</strong> ({{ off.expedition.reference }} - {{ off.entreprise.raison_sociale }}) ?</p>
+            <form method="post">
+                {% csrf_token %}
+                <div class="actions">
+                    <button type="submit" class="btn-danger">Oui, supprimer</button>
+                    <a class="btn btn-light" href="{% url 'offre_detail' off.pk %}">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

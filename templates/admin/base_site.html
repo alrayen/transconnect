@@ -29,8 +29,3 @@
 {% block branding %}
   <h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header }}</a></h1>
 {% endblock %}
-
-{% block userlinks %}
-  <a href="{% url 'dashboard' %}">Tableau de bord</a> /
-  {{ block.super }}
-{% endblock %}

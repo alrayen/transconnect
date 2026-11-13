@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de l'offre</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="topbar">Trans<span>Connect</span></div>
+    <div class="container">
+        <div class="card narrow">
+            <h1>Détails de l'offre {{ off.pk }}</h1>
+            <dl class="details">
+                <dt>Expédition</dt>          <dd>{{ off.expedition.reference }} ({{ off.expedition.ville_depart }} - {{ off.expedition.ville_arrivee }})</dd>
+                <dt>Transporteur</dt>        <dd>{{ off.entreprise.raison_sociale }}</dd>
+                <dt>Véhicule</dt>            <dd>{{ off.vehicule.immatriculation }} ({{ off.vehicule.get_type_vehicule_display }})</dd>
+                <dt>Prix</dt>                <dd>{{ off.prix }}</dd>
+                <dt>Délai</dt>               <dd>{{ off.delai_jours }} jour(s)</dd>
+                <dt>Date de proposition</dt> <dd>{{ off.date_proposition }}</dd>
+                <dt>Statut</dt>              <dd><span class="badge badge-{{ off.statut }}">{{ off.get_statut_display }}</span></dd>
+            </dl>
+            <div class="actions">
+                <a class="btn btn-light" href="{% url 'offre_list' %}">Retour à la liste</a>
+                <a class="btn" href="{% url 'offre_update' off.pk %}">Modifier</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

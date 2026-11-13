@@ -10,7 +10,7 @@ class Vehicule(models.Model):
     disponible = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    proprietaire = models.ForeignKey(Entreprise, on_delete=models.CASCADE, related_name='vehicules')
+    proprietaire = models.ForeignKey(Entreprise, on_delete=models.CASCADE, related_name='vehicules',limit_choices_to={'type_entreprise': 'trans'})
     def __str__(self):
         return f"{self.immatriculation} - {self.type_vehicule} - {self.proprietaire.raison_sociale}"
     def clean(self):

@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmer la suppression</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="topbar">Trans<span>Connect</span></div>
+    <div class="container">
+        <div class="card narrow">
+            <h1>Confirmer la suppression</h1>
+            <p>Voulez-vous vraiment supprimer le véhicule <strong>{{ veh.immatriculation }}</strong> ?</p>
+            {% if veh.offres.count %}
+                <p class="warning">Attention : {{ veh.offres.count }} offre(s) liée(s) à ce véhicule seront aussi supprimée(s).</p>
+            {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="actions">
+                    <button type="submit" class="btn-danger">Oui, supprimer</button>
+                    <a class="btn btn-light" href="{% url 'vehicule_detail' veh.pk %}">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

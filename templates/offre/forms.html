@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if form.instance.pk %}Modifier{% else %}Créer{% endif %} une offre</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="topbar">Trans<span>Connect</span></div>
+    <div class="container">
+        <div class="card narrow">
+            <h1>{% if form.instance.pk %}Modifier l'offre{% else %}Créer une nouvelle offre{% endif %}</h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="actions">
+                    <button type="submit">{% if form.instance.pk %}Modifier{% else %}Créer{% endif %}</button>
+                    <a class="btn btn-light" href="{% url 'offre_list' %}">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

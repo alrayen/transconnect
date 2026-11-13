@@ -18,11 +18,11 @@
                 <dt>Ville d'arrivée</dt> <dd>{{ exp.ville_arrivee }}</dd>
                 <dt>Date souhaitée</dt>  <dd>{{ exp.date_souhaitee }}</dd>
                 <dt>Poids</dt>           <dd>{{ exp.poids_kg }} kg</dd>
-                <dt>Description</dt>     <dd>{{ exp.description|default:"—" }}</dd>
+                <dt>Description</dt>     <dd>{{ exp.description|default:"-" }}</dd>
                 <dt>Statut</dt>          <dd><span class="badge badge-{{ exp.statut|slugify }}">{{ exp.get_statut_display }}</span></dd>
             </dl>
             <div class="actions">
-                <a class="btn btn-light" href="{% url 'list' %}">← Retour à la liste</a>
+                <a class="btn btn-light" href="{% url 'list' %}">Retour à la liste</a>
                 <a class="btn" href="{% url 'expedition_update' exp.pk %}">Modifier</a>
             </div>
         </div>
