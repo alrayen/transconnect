@@ -3,7 +3,7 @@ from django import forms
 
 from EntreprisesApp.models import Entreprise, Utilisateur
 
-
+from django.contrib.auth.forms import UserCreationForm
 class EntrepriseForm(forms.ModelForm):
     class Meta:
         model = Entreprise
@@ -19,3 +19,8 @@ class EntrepriseForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if not self.instance.pk:
             self.fields['gerant'].queryset = Utilisateur.objects.filter(entreprise__isnull=True)
+class InscriptionForm(UserCreationForm):
+    class Meta:
+        model = Utilisateur
+        #fields = ['username', 'email','role','telephone', 'password1', 'password2']
+        fields= UserCreationForm.Meta.fields + ('email', 'role', 'telephone')

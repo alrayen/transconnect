@@ -9,9 +9,19 @@ from EntreprisesApp.models import Entreprise
 from .forms import ExpeditionForm
 
 from .models import Expedition
+from django.contrib.auth.decorators import login_required
+from VehiculesApp.models import Vehicule
+from OffresApp.models import Offre
 # Create your views here.
+@login_required
 def home(request):
-    return HttpResponse("<h1>Bienvenue sur la page d'accueil de l'application ExpeditionsApp</h1>")
+    context = {
+        "nb_entreprises": Entreprise.objects.count(),
+        "nb_vehicules": Vehicule.objects.count(),
+        "nb_offres": Offre.objects.count(),
+        "nb_expeditions": Expedition.objects.count(),
+    }
+    return render(request, "home.html", context)
 def welcome(request,name):
     return HttpResponse(f"<h1>Bienvenue {name} sur la page d'accueil de l'application ExpeditionsApp</h1>")
 def listExpeditions(request):

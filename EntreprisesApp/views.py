@@ -2,7 +2,9 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, DetailView, UpdateView
 
 from EntreprisesApp.models import Entreprise
-from .forms import EntrepriseForm
+from .forms import EntrepriseForm, InscriptionForm
+from django.shortcuts import render, redirect
+
 
 # Create your views here.
 
@@ -30,3 +32,11 @@ class Entreprise_update(UpdateView):
     template_name = 'entreprise/forms.html'
     success_url = reverse_lazy('entreprise_list')
     form_class = EntrepriseForm
+def inscriptionView(request):
+    form = InscriptionForm()
+    if request.method == 'POST':
+        form = InscriptionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    return render(request, 'inscription.html', {'form': form})
