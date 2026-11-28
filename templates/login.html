@@ -1,19 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Login</button>
-        </form>
-        <p>Vous n'avez pas de compte ? <a href="{% url 'inscription' %}">Inscrivez-vous ici</a>.</p>
-    </div>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+<div class="card narrow">
+    <h1>Connexion</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="next" value="{{ next }}">
+        <div class="actions">
+            <button type="submit">Se connecter</button>
+        </div>
+    </form>
+    <p>Pas encore de compte ? <a href="{% url 'inscription' %}">Créer un compte</a></p>
+</div>
+{% endblock %}

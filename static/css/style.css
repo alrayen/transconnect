@@ -168,3 +168,23 @@ form input[type="checkbox"] { width: auto; margin-right: 6px; }
   border-radius: 6px;
   font-size: 14px;
 }
+
+.topbar { display: flex; justify-content: space-between; align-items: center; }
+.topbar a { color: #fff; text-decoration: none; }
+.topbar nav { display: flex; align-items: center; gap: 18px; font-size: 14px; }
+.topbar nav form { margin: 0; }
+.topbar nav button { padding: 6px 14px; font-size: 14px; border: 1px solid #fff; }
+.topbar .nav-user { color: #ffb36b; }
+
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.stat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+}
+.stat:hover { border-color: var(--primary); }
+.stat-number { display: block; font-size: 36px; color: var(--primary); }

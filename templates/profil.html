@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block content %}
+<div class="card narrow">
+    <h1>Mon profil</h1>
+    <dl class="details">
+        <dt>Nom d'utilisateur</dt> <dd>{{ user.username }}</dd>
+        <dt>Email</dt>             <dd>{{ user.email }}</dd>
+        <dt>Téléphone</dt>         <dd>{{ user.telephone|default:"—" }}</dd>
+        <dt>Identifiant</dt>       <dd>{{ user.user_id }}</dd>
+        <dt>Inscrit le</dt>        <dd>{{ user.date_joined|date:"d/m/Y" }}</dd>
+    </dl>
+    <div class="actions">
+        <a class="btn" href="{% url 'profil_modifier' %}">Modifier mon profil</a>
+        <a class="btn btn-light" href="{% url 'password_change' %}">Changer mon mot de passe</a>
+    </div>
+</div>
+
+<div class="card narrow" style="margin-top: 24px;">
+    <h1>Mon entreprise</h1>
+    {% if user.entreprise %}
+        <dl class="details">
+            <dt>Raison sociale</dt>    <dd>{{ user.entreprise.raison_sociale }}</dd>
+            <dt>Matricule fiscale</dt> <dd>{{ user.entreprise.matricule_fiscale }}</dd>
+            <dt>Type</dt>              <dd><span class="badge badge-{{ user.entreprise.type_entreprise }}">{{ user.entreprise.get_type_entreprise_display }}</span></dd>
+            <dt>Adresse</dt>           <dd>{{ user.entreprise.adresse|linebreaksbr }}</dd>
+        </dl>
+        <div class="actions">
+            <a class="btn" href="{% url 'entreprises:entreprise_update' user.entreprise.pk %}">Modifier mon entreprise</a>
+        </div>
+    {% else %}
+        <p>Vous n'avez pas encore d'entreprise.</p>
+        <div class="actions">
+            <a class="btn" href="{% url 'entreprises:entreprise_create' %}">Créer mon entreprise</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

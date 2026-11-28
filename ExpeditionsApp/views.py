@@ -1,19 +1,16 @@
-from weakref import ref
-
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, DetailView, UpdateView
 
+from EntreprisesApp.mixins import ChargeurRequisMixin
 from EntreprisesApp.models import Entreprise
 from .forms import ExpeditionForm
 
 from .models import Expedition
-from django.contrib.auth.decorators import login_required
 from VehiculesApp.models import Vehicule
 from OffresApp.models import Offre
 # Create your views here.
-@login_required
 def home(request):
     context = {
         "nb_entreprises": Entreprise.objects.count(),
@@ -31,10 +28,6 @@ def detailExpedition(request,pk):
     expedition=Expedition.objects.get(pk=pk)
     return render(request,'expedition/detail.html',{"exp":expedition})
 
-def deleteExpedition(request,pk):
-    expedition=Expedition.objects.get(pk=pk)
-    expedition.delete()
-    return redirect('list')
 
 class Expedition_list(ListView):
     model = Expedition
@@ -45,19 +38,27 @@ class Expedition_detail(DetailView):
     model = Expedition
     template_name = 'expedition/detail.html'
     context_object_name = 'exp'
-class Expedition_delete(DeleteView):
+
+class ExpeditionsDeMonEntrepriseMixin:
+    def get_queryset(self):
+        return Expedition.objects.filter(entreprise=self.request.user.entreprise)
+
+class Expedition_delete(ChargeurRequisMixin, ExpeditionsDeMonEntrepriseMixin, DeleteView):
     model = Expedition
     template_name = 'expedition/confirm_delete.html'
     context_object_name = 'exp'
-    success_url = reverse_lazy('list')
-class Expedition_create(CreateView):
+    success_url = reverse_lazy('expeditions:list')
+class Expedition_create(ChargeurRequisMixin, CreateView):
     model = Expedition
     template_name = 'expedition/forms.html'
-    success_url = reverse_lazy('list')
-    #fields = ['ville_depart', 'ville_arrivee', 'poids_kg', 'date_souhaitee', 'description', 'entreprise']
+    success_url = reverse_lazy('expeditions:list')
     form_class = ExpeditionForm
-class Expedition_update(UpdateView):
+
+    def form_valid(self, form):
+        form.instance.entreprise = self.request.user.entreprise
+        return super().form_valid(form)
+class Expedition_update(ChargeurRequisMixin, ExpeditionsDeMonEntrepriseMixin, UpdateView):
     model = Expedition
     template_name = 'expedition/forms.html'
-    success_url = reverse_lazy('list')
+    success_url = reverse_lazy('expeditions:list')
     form_class = ExpeditionForm

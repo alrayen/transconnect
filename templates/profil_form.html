@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Modifier mon profil{% endblock %}
+
+{% block content %}
+<div class="card narrow">
+    <h1>Modifier mon profil</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="actions">
+            <button type="submit">Enregistrer</button>
+            <a class="btn btn-light" href="{% url 'profil' %}">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

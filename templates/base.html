@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TransConnect{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="topbar">
+        <a class="brand" href="{% url 'home' %}">Trans<span>Connect</span></a>
+        <nav>
+            <a href="{% url 'expeditions:expedition_list' %}">Expéditions</a>
+            <a href="{% url 'offres:offre_list' %}">Offres</a>
+            <a href="{% url 'entreprises:entreprise_list' %}">Entreprises</a>
+            {% if user.is_authenticated %}
+                {% if user.entreprise.type_entreprise == 'char' %}
+                    <a href="{% url 'expeditions:expedition_create' %}">Publier une expédition</a>
+                {% elif user.entreprise.type_entreprise == 'trans' %}
+                    <a href="{% url 'vehicules:vehicule_list' %}">Mes véhicules</a>
+                {% else %}
+                    <a href="{% url 'entreprises:entreprise_create' %}">Créer mon entreprise</a>
+                {% endif %}
+                <a class="nav-user" href="{% url 'profil' %}">Connecté : {{ user.username }}</a>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit">Se déconnecter</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Se connecter</a>
+                <a href="{% url 'inscription' %}">Créer un compte</a>
+            {% endif %}
+        </nav>
+    </div>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
